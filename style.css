@@ -24,12 +24,15 @@ body {
 }
 
 .app-container {
+  width: 100%;
   max-width: 960px;
   margin: auto;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding-inline: 1rem;
 }
+
 
 header {
   text-align: center;
@@ -157,43 +160,127 @@ footer {
 
 .expense-item {
   background-color: #1e293b;
-  border-left: 4px solid var(--accent);
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.7rem;
   border-radius: 0.6rem;
-  position: relative;
+  padding: 0.8rem 1rem;
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.8rem;
+}
+
+.expense-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   gap: 0.4rem;
 }
 
-.expense-header {
+.category-tag {
+  background-color: #334155;
+  color: #a78bfa;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 0.5rem;
+  width: fit-content;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.description {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
+}
+
+
+.right {
+  margin-left: auto;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+
+.amount {
   font-weight: 600;
   font-size: 1rem;
   color: var(--text);
 }
 
-.description {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-/* 🗑 Delete Button */
+/* 🗑 Clean delete button */
 .delete-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.6rem;
-  background: none;
+  background: #334155;
   border: none;
-  color: #ef4444;
-  font-size: 1.1rem;
+  color: #e2e8f0;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  font-size: 0.9rem;
+  transition: background 0.2s;
 }
 
-.expense-item:hover .delete-btn {
-  opacity: 1;
+.delete-btn:hover {
+  background: #ef4444;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .forms {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .expenses-list li,
+  .expense-item {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .expense-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .right {
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 0;
+  }
+
+  .amount {
+    font-size: 1rem;
+  }
+
+  .delete-btn {
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
+  }
 }

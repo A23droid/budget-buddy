@@ -1,7 +1,15 @@
 // TODO
+// 1: Give an id to all expenses, and a global event listener
+        // to listen for any clicks on delete-btn class, also
+        // handle the remaining and spent calc.
+
+// 2: Give functionality to the Reset Button
+
+// TODO: Global
 // 1. Remaining can't be -ve.
 // 2. Deal with submmitting empty inputs.
-// 3. Bin position in expense list
+// 3. Bin position in expense list :)
+// 4. Deal with NaN in budget, total spent, remaining (Alert/popup)
 
 // i/p field setBudget button, total, remaining, 
 const budgetInput = document.getElementById('budget-input');
@@ -12,11 +20,12 @@ const remainingBudget = document.querySelector('#remaining-budget');
 const expenseAmount = document.querySelector('#expense-amount');
 const addExpenseButton = document.querySelector('#add-expense-btn');
 const recentExpensesList = document.querySelector('#expenses');
-
+// const deleteButton = document.querySelector()
 
 let budget = 0;
 let spent = 0;
 let remaining = budget;
+let id = 0;
 
 setBudget.addEventListener('click', () => {
     budget = parseInt(budgetInput.value);
@@ -25,7 +34,7 @@ setBudget.addEventListener('click', () => {
 
 });
 
-function addTheExpense(amount, desc, category) {
+function addTheExpense(amount, desc, category, id) {
     // spend = amount :)
     // reset i/p fields (Not the purpose of the func) :) 
     // display in recent expenses as creating a div having common class (will help in resetting);
@@ -39,15 +48,20 @@ function addTheExpense(amount, desc, category) {
 
     const expense = document.createElement('li');
 
-    expense.className = "expense-item";
-    expense.innerHTML = `<div class="expense-header">
-    <span class="category">${category}</span>
-    <span class="amount">₹${amount}</span>
-  </div>
-  <div class="description">${desc}</div>
-  <button class="delete-btn" title="Delete">🗑</button>`
+    expense.innerHTML = `<div class="expense-main">
+                            <div class="left">
+                            <span class="category-tag">${category}</span>
+                            <p class="description">${desc}</p>
+                            </div>
+                            <div class="right">
+                            <span class="amount">₹${amount}</span>
+                            <button class="delete-btn" title="Delete">🗑</button>
+                            </div>
+                        </div>`;
+
 
     recentExpensesList.appendChild(expense);
+    id++;
 }
 
 addExpenseButton.addEventListener('click', () => {
@@ -57,7 +71,7 @@ addExpenseButton.addEventListener('click', () => {
     const expenseDesc = document.querySelector('#expense-desc').value;
     const expenseCategory = document.querySelector('#expense-category').value;
 
-    addTheExpense(expenseAmount, expenseDesc, expenseCategory);
+    addTheExpense(expenseAmount, expenseDesc, expenseCategory, id);
     
     document.querySelectorAll('input, select').forEach(input => {
             if (input.tagName === 'SELECT') {
@@ -66,5 +80,14 @@ addExpenseButton.addEventListener('click', () => {
         }
     );
 });
+
+document.querySelectorAll('.delete-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+        button.closest('li').remove();
+    })
+})
+
+
+
 
 // At the end
