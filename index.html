@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Budget Buddy</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>💰 Budget Buddy</h1>
+      <p class="subtitle">Track your spending. Save smart. Live soft™</p>
+    </header>
+
+    <section class="summary">
+      <div class="card">
+        <p>Total Budget</p>
+        <h2>₹<span id="total-budget">0</span></h2>
+      </div>
+      <div class="card">
+        <p>Total Spent</p>
+        <h2>₹<span id="total-spent">0</span></h2>
+      </div>
+      <div class="card remaining">
+        <p>Remaining</p>
+        <h2>₹<span id="remaining-budget">0</span></h2>
+      </div>
+    </section>
+
+    <section class="forms">
+      <div class="card budget-form">
+        <h3>Set Budget</h3>
+        <input type="number" id="budget-input" placeholder="Enter monthly budget" />
+        <button id="set-budget-btn">Set</button>
+      </div>
+
+      <div class="card expense-form">
+        <h3>Add Expense</h3>
+        <input type="number" id="expense-amount" placeholder="Amount ₹" />
+        <input type="text" id="expense-desc" placeholder="Description" />
+        <select id="expense-category">
+          <option value="">Select Category</option>
+          <option value="Food">🍕 Food</option>
+          <option value="Rent">🏠 Rent</option>
+          <option value="Fun">🎮 Fun</option>
+          <option value="Travel">🚌 Travel</option>
+          <option value="Misc">📦 Misc</option>
+        </select>
+        <button id="add-expense-btn">Add Expense</button>
+      </div>
+    </section>
+
+    <section class="expenses-list card">
+      <h3>Recent Expenses</h3>
+      <ul id="expenses"></ul>
+    </section>
+
+    <footer>
+      <button id="reset-btn">Reset Everything</button>
+      <div class="tip-box">💡 Tip: Don’t spend rent on food. Or do, I’m not your mom.</div>
+    </footer>
+
+    <script src="script.js"></script>
+  </div>
+</body>
+</html>
