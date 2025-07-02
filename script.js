@@ -1,13 +1,3 @@
-// TODO: 
-// 1. Remaining, spent, budget can't be -ve. :)
-// 2. Deal with submmitting empty inputs. :)
-// 3. Bin position in expense list :)
-// 4. Deal with NaN in budget, total spent, remaining (Alert/popup) :)
-// 5. Remaining = budget at start :)
-// 6. Deleting 'x' li deletes 'x-1' li (Imp. Bug) :)
-// 7. Lock the budget after using, only resetting unlocks it :)
-
-// MOST IMP. TODO: localStorage
 
 // i/p field setBudget button, total, remaining, 
 const budgetInput = document.getElementById('budget-input');
@@ -25,6 +15,8 @@ let spent = 0;
 let remaining = budget;
 let binId = 0;
 
+let expenses = [];
+
 // Setting budget
 setBudget.addEventListener('click', () => {
 
@@ -39,6 +31,8 @@ setBudget.addEventListener('click', () => {
     budgetInput.value = '';
     remaining = budget;
     remainingBudget.innerHTML = remaining;
+
+    saveToLocalStorage();
 
     setBudget.disabled = true;
     budgetInput.disabled = true;
@@ -92,6 +86,16 @@ addExpenseButton.addEventListener('click', () => {
     }
 
     addTheExpense(expenseAmount, expenseDesc, expenseCategory, binId);
+
+    expenses.push({
+        id: binId,
+        amount: expenseAmount,
+        desc: expenseDesc,
+        category: expenseCategory
+    });
+
+    saveToLocalStorage();
+
     binId++;
     
     document.querySelectorAll('input, select').forEach(input => {
@@ -114,7 +118,6 @@ recentExpensesList.addEventListener('click', (e) => {
         const listToBeDeleted = document.getElementById(requiredId);
 
         // Calculation
-        console.log(listToBeDeleted.querySelector('.amount').textContent.replace('₹', ''));
         
         spent -= Math.max(parseInt(listToBeDeleted.querySelector('.amount')
                 .textContent 
@@ -122,6 +125,10 @@ recentExpensesList.addEventListener('click', (e) => {
         
 
         remaining = Math.max(budget - spent, 0);
+        
+        expenses = expenses.filter((expense) => expense.id != requiredId) // string & int comparision
+        
+        saveToLocalStorage();
 
         totalSpent.innerHTML = spent;
         remainingBudget.innerHTML = remaining;
@@ -135,7 +142,10 @@ recentExpensesList.addEventListener('click', (e) => {
 resetButton.addEventListener('click', () => {
 
     // Reset budget, spent, remaining
-    budget = 0; remaining = 0; spent= 0;
+    budget = 0; 
+    remaining = 0; 
+    spent = 0; 
+    binId = 0;
 
     totalBudget.innerHTML = budget;
     totalSpent.innerHTML = spent;
@@ -144,10 +154,10 @@ resetButton.addEventListener('click', () => {
     // Unlock the setBudget
     setBudget.disabled = false;
     budgetInput.disabled = false;
-    // console.log(lockNote);
     
-    document.querySelector('.lock-note').remove();
-
+    if (document.querySelector('.lock-note')) {
+        document.querySelector('.lock-note').remove();
+    }
     // Delete all recent expenses
     recentExpensesList.innerHTML = '';
 
@@ -158,4 +168,52 @@ resetButton.addEventListener('click', () => {
             } else input.value = '';
         }
     );
+
+    // Forget everything from localStorage
+    localStorage.removeItem('budgetBuddy');
+    expenses = [];
+})
+
+
+// localStorage
+// what to store: balance, spent, remaining, binId, expenses = [{data-id, amount, desc, category}]
+// Obj -stringify- => string -parse- => Obj
+
+function saveToLocalStorage(){
+    const data = {
+        budget,
+        binId,
+        expenses
+    }
+
+    localStorage.setItem('budgetBuddy', JSON.stringify(data));
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const savedData = JSON.parse(localStorage.getItem('budgetBuddy'));
+    if (!savedData) return;
+
+    // Restore the var
+    budget = savedData.budget;
+    // spent = savedData.spent;
+    // remaining = savedData.remaining;
+    spent = 0;
+    remaining = budget;
+    
+    binId = savedData.binId;
+    expenses = savedData.expenses || []; // if no expenses made, then go with empty array
+
+    // Update the UI
+    remainingBudget.innerHTML = remaining;
+    totalSpent.innerHTML = spent;
+    totalBudget.innerHTML = budget;
+
+    expenses.forEach((expense) => {
+        addTheExpense(expense.amount, expense.desc, expense.category, expense.id);
+    })
+
+    // Disable the budget input
+    setBudget.disabled = true;
+    budgetInput.disabled = true;
+
 })
