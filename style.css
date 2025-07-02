@@ -16,6 +16,13 @@
   box-sizing: border-box;
 }
 
+.lock-note {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
