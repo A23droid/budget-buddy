@@ -22,7 +22,8 @@ setBudget.addEventListener('click', () => {
 
     budget = parseInt(budgetInput.value);
     if (isNaN(budget) || budget <= 0) {
-        alert("Set a proper budget 😭");
+        showPopUp("Set a proper budget 😭");
+        // alert("Set a proper budget 😭");
         return;
     }
 
@@ -81,7 +82,8 @@ addExpenseButton.addEventListener('click', () => {
     const expenseDesc = document.querySelector('#expense-desc').value;
     const expenseCategory = document.querySelector('#expense-category').value;
     if (isNaN(expenseAmount) || expenseAmount <= 0 || !expenseDesc || expenseCategory === '') {
-        alert("Fill the expense properly 😭");
+        showPopUp("Fill the expense properly 😭");
+        // alert("Fill the expense properly 😭");
         return;
     }
 
@@ -217,3 +219,15 @@ window.addEventListener('DOMContentLoaded', () => {
     budgetInput.disabled = true;
 
 })
+
+function showPopUp(message, duration = 2500) {
+    const popup = document.querySelector('#popup');
+    popup.textContent = message;
+    popup.classList.remove('hidden')
+    popup.classList.add('show');
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        popup.classList.add('hidden');
+    }, duration);
+}
