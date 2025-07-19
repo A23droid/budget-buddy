@@ -71,7 +71,7 @@ function addTheExpense(amount, desc, category, id) {
                         </div>`;
 
 
-    recentExpensesList.appendChild(expense);
+    recentExpensesList.prepend(expense);
 }
 
 // Add expenses
